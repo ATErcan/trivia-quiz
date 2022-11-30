@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { QuestionCard, QuestionText } from "../styles/Quiz.styled";
+import Answers from "./Answers";
 
 const QuestionComp = ({ question }) => {
-  const [num, setNum] = useState(generateRandomNumbers());
-  console.log(question);
-
-  /*   useEffect(() => {
-    setNum(generateRandomNumbers());
-  }, []); */
+  const [num] = useState(generateRandomNumbers());
 
   function generateRandomNumbers() {
     let numbers = [];
@@ -20,7 +16,8 @@ const QuestionComp = ({ question }) => {
 
   return (
     <QuestionCard>
-      <QuestionText>Question</QuestionText>
+      <QuestionText>{question.question.split(/&[^;]*;/).join("")}</QuestionText>
+      <Answers question={question} num={num} />
     </QuestionCard>
   );
 };
