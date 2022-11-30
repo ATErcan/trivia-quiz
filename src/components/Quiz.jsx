@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
-import { QuizContainer } from "../styles/Quiz.styled";
+import { EndBtn, QuizContainer, QuizSection } from "../styles/Quiz.styled";
 import QuestionComp from "./QuestionComp";
 
 const Quiz = ({ questions, setResults }) => {
@@ -27,10 +27,12 @@ const Quiz = ({ questions, setResults }) => {
 
   console.log(points);
   return (
-    <>
-      <QuizContainer>{questionArr}</QuizContainer>
-      <button onClick={endQuiz}>End Quiz</button>
-    </>
+    <QuizSection>
+      <QuizContainer>
+        {questionArr}
+        <EndBtn onClick={endQuiz}>End Quiz</EndBtn>
+      </QuizContainer>
+    </QuizSection>
   );
 };
 
