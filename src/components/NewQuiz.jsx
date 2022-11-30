@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   DropdownContainer,
   DropdownLabel,
@@ -7,6 +6,8 @@ import {
   GameOptions,
   NewQuizContainer,
   StartBtn,
+  Instructions,
+  QuizHeading,
 } from "../styles/NewQuiz.styled";
 
 const NewQuiz = ({ settings, setSettings, getQuiz, setNewGame }) => {
@@ -28,6 +29,13 @@ const NewQuiz = ({ settings, setSettings, getQuiz, setNewGame }) => {
   return (
     <NewQuizContainer>
       <GameOptions onSubmit={handleSubmit}>
+        <QuizHeading>Trivia Quiz</QuizHeading>
+        <Instructions>
+          You will see 10 questions on this quiz. Every correct answer will give
+          you 10 points. Every wrong answer you choose, you will lose 3 points.
+          If you don't answer a question, you don't get or lose any points. Good
+          Luck {`:)`}
+        </Instructions>
         <DropdownContainer>
           <DropdownLabel>Category</DropdownLabel>
           <DropdownList
