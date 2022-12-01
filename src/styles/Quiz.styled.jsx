@@ -61,10 +61,26 @@ export const AnswerBtn = styled.button`
   border: 1px solid #ccc;
   padding: 0.6rem 0.2rem;
   border-radius: 5px;
-  background-color: ${({ isPicked }) => (isPicked ? "#ddd" : "#fff")};
+  /* background-color: ${({ isPicked }) => (isPicked ? "#ddd" : "#fff")}; */
+  background-color: ${({ isPicked, check, correct }) => {
+    if (isPicked && !check) {
+      return "#ddd";
+    } else if (!isPicked && !check) {
+      return "#fff";
+    } else if (isPicked && check && correct) {
+      return "#5cff5c";
+    } else if (isPicked && check && !correct) {
+      return "#dc3545";
+    } else if (!isPicked && check && !correct) {
+      return "#f8bcbc";
+    } else if (!isPicked && check && correct) {
+      return "#94d7a2";
+    }
+  }};
   font-family: "Karla", sans-serif;
+  color: #293264;
   &:hover {
-    opacity: 0.7;
+    opacity: ${({ check }) => (check ? "1" : "0.8")};
   }
 `;
 
@@ -77,11 +93,36 @@ export const Clear = styled.p`
   }
 `;
 
+export const BtnsContainer = styled.div`
+  display: flex;
+  column-gap: 1rem;
+  justify-content: flex-end;
+`;
+
+export const CheckBtn = styled.button`
+  width: 10rem;
+  height: 3rem;
+  background: #4d5b9e;
+  border-radius: 10px;
+  color: #fff;
+  border: none;
+  cursor: ${({ check }) => (check ? "default" : "pointer")};
+  opacity: ${({ check }) => (check ? "0.5" : "1")};
+  &:hover {
+    opacity: ${({ check }) => (check ? "0.5" : "0.8")};
+  }
+`;
+
 export const EndBtn = styled.button`
   width: 10rem;
   height: 3rem;
   background: #4d5b9e;
   border-radius: 10px;
   color: #fff;
-  align-self: flex-end;
+  border: none;
+  cursor: ${({ check }) => (check ? "pointer" : "default")};
+  opacity: ${({ check }) => (check ? "1" : "0.5")};
+  &:hover {
+    opacity: ${({ check }) => (check ? "0.8" : "0.5")};
+  }
 `;

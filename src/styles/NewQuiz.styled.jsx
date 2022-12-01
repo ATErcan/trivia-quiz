@@ -66,4 +66,8 @@ export const StartBtn = styled.button`
   height: 3rem;
   background: #4d5b9e;
   border-radius: 15px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
 `;

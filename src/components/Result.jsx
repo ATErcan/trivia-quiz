@@ -14,6 +14,7 @@ const Result = ({ setNewGame, setResults, setSettings }) => {
       category: "",
       difficulty: "",
     });
+    sessionStorage.clear();
   };
 
   return (

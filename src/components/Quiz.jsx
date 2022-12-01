@@ -1,36 +1,55 @@
 import { nanoid } from "nanoid";
-import { useEffect, useState } from "react";
-import { EndBtn, QuizContainer, QuizSection } from "../styles/Quiz.styled";
+import { useContext, useEffect, useState } from "react";
+import { GivenAnswers } from "../context/GivenAnswersProvider";
+import {
+  BtnsContainer,
+  CheckBtn,
+  EndBtn,
+  QuizContainer,
+  QuizSection,
+} from "../styles/Quiz.styled";
 import QuestionComp from "./QuestionComp";
 
 const Quiz = ({ questions, setResults }) => {
-  const [points, setPoints] = useState(0);
+  const [points, setPoints] = useState(
+    JSON.parse(sessionStorage.getItem("score")) || 0
+  );
+  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     sessionStorage.setItem("score", JSON.stringify(points));
   }, [points]);
 
   const questionArr = questions?.map((question) => {
-    return <QuestionComp key={nanoid()} question={question} />;
+    return <QuestionComp key={nanoid()} question={question} check={check} />;
   });
 
   const endQuiz = () => {
+    setResults(true);
+  };
+
+  const checkAnswers = () => {
     const final = JSON.parse(sessionStorage.getItem("answers"));
-    console.log(final);
     final.map((answer) => {
       return answer.correct
         ? setPoints((prevPoints) => (prevPoints += 10))
         : setPoints((prevPoints) => (prevPoints -= 3));
     });
-    setResults(true);
+    setCheck(true);
   };
 
-  console.log(points);
   return (
     <QuizSection>
       <QuizContainer>
         {questionArr}
-        <EndBtn onClick={endQuiz}>End Quiz</EndBtn>
+        <BtnsContainer>
+          <CheckBtn onClick={checkAnswers} disabled={check} check={check}>
+            Check
+          </CheckBtn>
+          <EndBtn onClick={endQuiz} disabled={!check} check={check}>
+            End Quiz
+          </EndBtn>
+        </BtnsContainer>
       </QuizContainer>
     </QuizSection>
   );

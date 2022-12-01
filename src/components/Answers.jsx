@@ -3,22 +3,41 @@ import { useContext, useEffect, useState } from "react";
 import { GivenAnswers } from "../context/GivenAnswersProvider";
 import { AnswerBtn, AnswerContainer, Clear } from "../styles/Quiz.styled";
 
-const Answers = ({ question, num }) => {
+const Answers = ({ question, num, check }) => {
   const [answersArr, setAnswersArr] = useState(getAllAnswers());
+  const [checkedAnswers, setCheckedAnswers] = useState([]);
   const { pickedAnswers, setPickedAnswers } = useContext(GivenAnswers);
+  const [checked, setChecked] = useState([]);
+
+  useEffect(() => {
+    if (!check) {
+      sessionStorage.setItem(`${question.question}`, JSON.stringify(num));
+    } else {
+      setChecked(JSON.parse(sessionStorage.getItem(`${question.question}`)));
+    }
+  }, []);
+  useEffect(() => {
+    if (!check) {
+      sessionStorage.setItem(
+        `${question.question}1`,
+        JSON.stringify(answersArr)
+      );
+    } else {
+      setCheckedAnswers(
+        JSON.parse(sessionStorage.getItem(`${question.question}1`))
+      );
+    }
+  }, [answersArr]);
 
   useEffect(() => {
     const picked = answersArr.filter((item) => item.isPicked);
-    const isSameA = (item) => item.text === picked[0]?.text;
     const isSameQ = (item) => item.que === picked[0]?.que;
 
     if (picked.length > 0 && pickedAnswers.length === 0) {
       setPickedAnswers((prevPicked) => {
         return [...prevPicked, picked[0]];
       });
-      console.log("something");
     } else if (picked.length > 0 && !pickedAnswers.some(isSameQ)) {
-      console.log("first");
       setPickedAnswers((prevPicked) => {
         return [...prevPicked, picked[0]];
       });
@@ -33,10 +52,10 @@ const Answers = ({ question, num }) => {
   }, [answersArr]);
 
   useEffect(() => {
-    sessionStorage.setItem("answers", JSON.stringify(pickedAnswers));
+    if (!check) {
+      sessionStorage.setItem("answers", JSON.stringify(pickedAnswers));
+    }
   }, [pickedAnswers]);
-
-  console.log(pickedAnswers);
 
   function getAllAnswers() {
     const allAnwers = [];
@@ -80,23 +99,39 @@ const Answers = ({ question, num }) => {
     });
   };
 
-  const printAnswers = num.map((item) => {
+  const printAnswers = num?.map((item) => {
     return (
       <AnswerBtn
-        key={item}
+        key={nanoid()}
         onClick={() => pickAnswer(answersArr[item].id)}
         isPicked={answersArr[item].isPicked}
+        check={check}
+        correct={answersArr[item].correct}
+        disabled={check}
       >
         {answersArr[item].text.split(/&[^;]*;/).join("")}
       </AnswerBtn>
     );
   });
 
-  //   console.log(answersArr);
+  const afterChecked = checked?.map((item) => {
+    return (
+      <AnswerBtn
+        key={nanoid()}
+        onClick={() => pickAnswer(checkedAnswers[item]?.id)}
+        isPicked={checkedAnswers[item]?.isPicked}
+        check={check}
+        correct={checkedAnswers[item]?.correct}
+        disabled={check}
+      >
+        {checkedAnswers[item]?.text.split(/&[^;]*;/).join("")}
+      </AnswerBtn>
+    );
+  });
 
   return (
     <>
-      <AnswerContainer>{printAnswers}</AnswerContainer>
+      <AnswerContainer>{!check ? printAnswers : afterChecked}</AnswerContainer>
       <Clear onClick={() => clearPicks(question.question)}>
         Clear my choice
       </Clear>

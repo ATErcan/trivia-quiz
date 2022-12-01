@@ -2,7 +2,7 @@ import { useState } from "react";
 import { QuestionCard, QuestionText } from "../styles/Quiz.styled";
 import Answers from "./Answers";
 
-const QuestionComp = ({ question }) => {
+const QuestionComp = ({ question, check }) => {
   const [num] = useState(generateRandomNumbers());
 
   function generateRandomNumbers() {
@@ -17,7 +17,9 @@ const QuestionComp = ({ question }) => {
   return (
     <QuestionCard>
       <QuestionText>{question.question.split(/&[^;]*;/).join("")}</QuestionText>
-      <Answers question={question} num={num} />
+      {num.length > 0 && (
+        <Answers question={question} num={num} check={check} />
+      )}
     </QuestionCard>
   );
 };
