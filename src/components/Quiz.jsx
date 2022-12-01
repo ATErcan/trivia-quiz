@@ -1,6 +1,5 @@
 import { nanoid } from "nanoid";
-import { useContext, useEffect, useState } from "react";
-import { GivenAnswers } from "../context/GivenAnswersProvider";
+import { useEffect, useState } from "react";
 import {
   BtnsContainer,
   CheckBtn,

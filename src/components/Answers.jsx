@@ -15,6 +15,7 @@ const Answers = ({ question, num, check }) => {
     } else {
       setChecked(JSON.parse(sessionStorage.getItem(`${question.question}`)));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (!check) {
@@ -27,6 +28,7 @@ const Answers = ({ question, num, check }) => {
         JSON.parse(sessionStorage.getItem(`${question.question}1`))
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answersArr]);
 
   useEffect(() => {
@@ -49,12 +51,14 @@ const Answers = ({ question, num, check }) => {
         return [...prevPicked, picked[0]];
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answersArr]);
 
   useEffect(() => {
     if (!check) {
       sessionStorage.setItem("answers", JSON.stringify(pickedAnswers));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickedAnswers]);
 
   function getAllAnswers() {
