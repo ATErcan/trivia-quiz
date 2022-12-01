@@ -51,6 +51,9 @@ const Answers = ({ question, num, check }) => {
         return [...prevPicked, picked[0]];
       });
     }
+    if (check) {
+      setPickedAnswers([]);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answersArr]);
 

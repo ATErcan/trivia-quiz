@@ -23,12 +23,15 @@ const Quiz = ({ questions, setResults }) => {
     return <QuestionComp key={nanoid()} question={question} check={check} />;
   });
 
+  console.log(points);
+
   const endQuiz = () => {
     setResults(true);
   };
 
   const checkAnswers = () => {
     const final = JSON.parse(sessionStorage.getItem("answers"));
+    console.log(final);
     final.map((answer) => {
       return answer.correct
         ? setPoints((prevPoints) => (prevPoints += 10))
